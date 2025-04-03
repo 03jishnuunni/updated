@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}'s Ledger</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>{{ user.username }}'s Ledger</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Narration</th>
+            <th>Investment</th>
+            <th>Returns</th>
+            <th>Withdrawal</th>
+            <th>Balance</th>
+            <th>Receipt</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ledger_entry in ledger_entries %}
+        <tr>
+            <td>{{ ledger_entry.date }}</td>
+            <td>{{ ledger_entry.project_name }}</td>
+            <td>{{ ledger_entry.narration }}</td>
+            <td>{{ ledger_entry.principal_investment }}</td>
+            <td>{{ ledger_entry.returns }}</td>
+            <td>{{ ledger_entry.withdrawal }}</td>
+            <td>{{ ledger_entry.balance }}</td>
+            <td>
+                {% if ledger_entry.receipt %}
+                    <a href="{{ ledger_entry.receipt.url }}">View Receipt</a>
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

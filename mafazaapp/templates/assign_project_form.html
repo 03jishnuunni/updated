@@ -1,0 +1,162 @@
+
+<style>
+  .kala{
+    background-color: #07482a;
+  }
+
+  .kaala{
+    background-color: #cd992b;
+  }
+  h5{
+    color:rgb(255, 255, 255);
+  }
+</style>
+
+<div class="container-fluid py-5">
+  <!-- Row 1: User Profile + Basic Info -->
+  {% comment %} <div class="row mb-5">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+               <div class="avatar avatar-xl bg-primary bg-opacity-10 rounded-circle me-4">
+                <i class="fas fa-user text-primary" style="font-size: 2rem; line-height: 2.5rem;"></i>
+              </div> 
+              <div>
+                <h4 class="mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
+                <div class="d-flex flex-wrap gap-3 text-secondary">
+                  <span><i class="fas fa-envelope me-2"></i>{{ user.email }}</span>
+                  <span><i class="fas fa-phone me-2"></i>{{ user.phone_number|default:"N/A" }}</span>
+                  <span class="badge {% if user.is_active %}bg-success{% else %}bg-secondary{% endif %} px-3 py-1">
+                    {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="text-end">
+              <h6 class="mb-1">Member Since</h6>
+              <p class="text-muted mb-0">{{ user.date_joined|date:"M d, Y" }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> {% endcomment %}
+
+  <!-- Row 2: Assignment Forms -->
+  <div class="row g-4">
+    <h4 class="mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
+    <!-- New Assignment Form -->
+    <div class="col-lg-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-header kala py-3">
+          <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Assign New Project</h5>
+        </div>
+        <div class="card-body p-4">
+          <form method="POST" action="{% url 'assign_project' user_id=user.id %}">
+            {% csrf_token %}
+
+            <div class="mb-4">
+              <label class="form-label">Project</label>
+              <select class="form-select" name="project_id" required>
+                {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.project_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Return Period</label>
+                <select class="form-select" name="return_period" required>
+                  <option value="2m">2 Minutes</option>
+                  <option value="10m">10 Minutes</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="semiannual">Semiannual</option>
+                  <option value="annual">Annual</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Interest Rate (%)</label>
+                <input type="number" class="form-control" name="rate_of_interest" step="0.01" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn kaala w-100 mt-4">
+              <i class="fas fa-save me-2 "></i>Assign Project
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Assignments Table -->
+    <div class="col-lg-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-header kala py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Current Assignments</h5>
+            <span class="badge kaala px-3 py-2">{{ assigned_projects.count }}</span>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="bg-light text-secondary">
+                <tr>
+                  <th>Project</th>
+                  <th>ROI</th>
+                  <th>Period</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for assignment in assigned_projects %}
+                <tr>
+                  <td class="align-middle">
+                    <strong>{{ assignment.project.project_name }}</strong>
+                    <p class="text-muted mb-0 small">{{ assignment.assigned_at|date:"M d, Y" }}</p>
+                  </td>
+                  <td class="align-middle">
+                    <form method="POST" action="{% url 'assign_project' user_id=user.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="edit_id" value="{{ assignment.id }}">
+                      <div class="input-group input-group-sm">
+                        <input type="number" name="new_roi" value="{{ assignment.rate_of_interest }}" class="form-control text-end" step="0.01" required>
+                        <span class="input-group-text">%</span>
+                      </div>
+                  </td>
+                  <td class="align-middle">
+                    <select name="new_period" class="form-select form-select-sm">
+                      {% for period, display in assignment.RETURN_PERIOD_CHOICES %}
+                      <option value="{{ period }}" {% if period == assignment.return_period %}selected{% endif %}>
+                        {{ display }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td class="align-middle text-end">
+                    <button type="submit" class="btn btn-sm btn-outline-primary me-1" title="Update">
+                      <i class="fas fa-sync-alt"></i>
+                    </button>
+                    </form>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="4" class="text-center py-4 text-muted">
+                    <i class="fas fa-folder-open me-2"></i>
+                    No projects assigned
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

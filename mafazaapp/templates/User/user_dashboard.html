@@ -1,0 +1,710 @@
+ <h1>User Dashboard</h1>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Project</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Current Return</th>
+    </tr>
+    {% for transaction in recent_transactions %}
+    <tr>
+        <td>{{ transaction.transaction_date }}</td>
+        <td>{{ transaction.project.project_name }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.transaction_type|capfirst }}</td>
+        <td>{{ transaction.status|capfirst }}</td>
+        <td>{{ transaction.calculated_return }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">No recent transactions found.</td>
+    </tr>
+    {% endfor %}
+</table> 
+
+
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <title>
+    Soft UI Dashboard 3 by Creative Tim
+  </title>
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <script src="{% static 'js/soft-ui-dashboard' %}" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <style>
+    {% comment %} .nav-link svg {
+  width: 30px;
+  height: 20px;
+  margin-right: 8px; /* Add spacing between the icon and text */
+  vertical-align: middle; /* Align the icon with the text */
+} {% endcomment %}
+
+
+  .kala{
+    background-color: #005e5c;
+  }
+
+  .kaala{
+    background-color: #DA9100;
+  }
+  .nav-link-text{
+    color:white;
+  }
+  .nav-link.active {
+    background-color:rgb(218, 145, 0) !important;  /* Green color, change as needed */
+    color: white !important;
+    border-radius: 10px; /* Rounded corners */
+}
+.card {
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  position: relative;
+  text-align: center;
+  z-index: 1; /* Keep text always visible */
+}
+
+.mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  z-index: 0;
+  opacity: 0.5; /* Adjusted for visibility */
+}
+
+.dropdown {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+.bg-gray {
+  background-color:rgb(62, 13, 13); /* Light gray color */
+}
+</style>
+
+  <title>
+    Mafaza
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+  <link id="pagestyle" href="{% static 'css/soft-ui-dashboard.css' %}" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav  navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 kala " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
+        {% comment %} <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo"> {% endcomment %}
+        <svg width="169" height="48" viewBox="0 0 169 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25.1414 25.9486V19.083C25.2161 18.3759 25.4447 17.6932 25.8114 17.0821C26.178 16.4709 26.6741 15.9459 27.2654 15.5431L29.7153 14.1489L35.0476 11.1156L40.2427 8.16061C41.5637 7.4091 42.9877 6.80041 44.0514 5.68505C44.9308 4.76545 45.6074 3.67457 46.0382 2.48178C46.1102 2.30495 46.5906 0.502686 46.5838 0.502686H47.3249V9.68404C47.3249 9.68404 47.3249 13.1117 44.5421 14.7848L25.1414 25.9486Z" fill="#CD992B"/>
+          <path d="M28.0652 29.6549L47.3253 18.6101V24.5542C47.3253 24.5542 47.3665 27.7847 44.6729 29.2571L29.9182 37.7073C28.4757 38.6673 27.3654 40.043 26.7373 41.6485C26.5386 42.203 26.4387 42.7875 26.4422 43.376V47.4566H25.1417V35.1875C25.1417 35.1161 25.1417 35.0481 25.1417 34.9801C25.1221 33.9538 25.3632 32.9391 25.8429 32.0294C26.3226 31.1196 27.0255 30.344 27.8868 29.774C27.9451 29.7331 28.0069 29.6957 28.0687 29.6617" fill="#CD992B"/>
+          <path d="M22.1836 25.9484V19.0828C22.1088 18.3756 21.8803 17.693 21.5136 17.0818C21.1469 16.4707 20.6508 15.9456 20.0596 15.5429L17.6096 14.1487L12.2739 11.1154L7.07541 8.16037C5.75435 7.40886 4.33034 6.80017 3.26663 5.6848C2.3869 4.76421 1.71028 3.67214 1.27989 2.47813C1.21469 2.30471 0.734306 0.502441 0.741168 0.502441H0V9.68379C0 9.68379 0 13.1115 2.78624 14.7845L22.1836 25.9484Z" fill="#CD992B"/>
+          <path d="M19.2601 29.6549L3.62384e-05 18.6067V24.5542C3.62384e-05 24.5542 -0.0411398 27.7846 2.65246 29.2571L17.4072 37.7073C18.8496 38.6673 19.9599 40.043 20.588 41.6485C20.7867 42.203 20.8866 42.7875 20.8831 43.3759V47.4565H22.1836V35.1875C22.1836 35.1161 22.1836 35.0481 22.1836 34.9801C22.2032 33.9538 21.9621 32.9391 21.4824 32.0294C21.0027 31.1196 20.2999 30.344 19.4385 29.7739C19.3802 29.7331 19.3184 29.6957 19.2567 29.6617" fill="#CD992B"/>
+          <path d="M98.9598 33.4743H102.288V25.2995H109.638V23.0585H102.288V18.325H110.846V15.8699H98.9598V33.4743Z" fill="white"/>
+          <path d="M134.059 15.8699V18.325H143.546L133.009 33.362L132.93 33.4743H149.002V31.0225H138.605L149.129 15.8699H134.059Z" fill="white"/>
+          <path d="M120.57 15.8699L113.1 33.3757L113.055 33.4743H115.419L121.05 20.4027L127.196 33.4743H130.788L122.515 15.8699H120.57Z" fill="white"/>
+          <path d="M86.5243 15.8699L79.0577 33.3757L79.0131 33.4743H81.3773L87.0046 20.4027L93.1536 33.4743H96.7462L88.4732 15.8699H86.5243Z" fill="white"/>
+          <path d="M74.9743 15.8699H72.6136L66.9828 28.9414L60.8338 15.8699H57.2412V33.4743H59.8868V21.4977L65.5142 33.4743H67.4632L73.0185 20.4571V33.4743H76.3469V15.8699H74.9743Z" fill="white"/>
+          <path d="M160.727 15.8699H158.778L151.311 33.3757L151.267 33.4743H153.631L159.258 20.4027L165.407 33.4743H169L160.727 15.8699Z" fill="white"/>
+          <path d="M67.7067 40.2109H66.3616V47.2942H67.7067V40.2109Z" fill="white"/>
+          <path d="M75.067 45.1679L70.6063 40.2372L70.5789 40.21H69.7965V47.2932H70.4965V41.934L75.3347 47.4292L75.3621 47.4564H75.7567V40.21H75.067V45.1679Z" fill="white"/>
+          <path d="M80.9453 45.5828L78.3992 40.2576L78.3752 40.21H76.9443L80.4031 47.4088L80.4271 47.4564H80.8389L84.0884 40.21H83.3403L80.9453 45.5828Z" fill="white"/>
+          <path d="M85.2687 47.2932H90.2887V46.6743H86.6138V43.7465H89.0706V43.1242H86.6138V40.8289H90.2887V40.21H85.2687V47.2932Z" fill="white"/>
+          <path d="M95.7818 44.1211C95.5837 43.9441 95.3675 43.788 95.1367 43.6553C94.9068 43.5193 94.6632 43.3832 94.4127 43.2506L93.675 42.8698C93.4593 42.7591 93.2528 42.6318 93.0573 42.4889C92.8949 42.3731 92.7504 42.2345 92.6284 42.0774C92.5283 41.9501 92.4739 41.7934 92.474 41.632C92.4747 41.5146 92.5004 41.3987 92.5495 41.2919C92.6016 41.1758 92.6789 41.0724 92.776 40.9893C92.8874 40.892 93.0167 40.8169 93.1568 40.7682C93.3331 40.7067 93.519 40.6767 93.7058 40.6798C93.9215 40.6774 94.1361 40.7107 94.3406 40.7784C94.5208 40.8398 94.6883 40.9332 94.8348 41.0539C94.9818 41.1763 95.1071 41.3223 95.2053 41.4858C95.3143 41.6619 95.4019 41.8503 95.4661 42.0468L95.497 42.1387L96.2588 41.7986L96.2347 41.7238C96.0895 41.2311 95.7874 40.7981 95.3735 40.4894C94.8936 40.1817 94.3281 40.0318 93.7573 40.0609C93.4175 40.0556 93.0792 40.105 92.7554 40.2072C92.4829 40.2943 92.2301 40.4329 92.0108 40.6152C91.8111 40.7842 91.6527 40.9958 91.5475 41.2341C91.442 41.4779 91.3882 41.7407 91.3897 42.006C91.3848 42.2637 91.445 42.5185 91.5647 42.7473C91.6812 42.9624 91.8331 43.1566 92.0142 43.322C92.2064 43.4968 92.4169 43.6507 92.6421 43.7811C92.8789 43.9171 93.1157 44.0463 93.3524 44.1687L94.0387 44.5326C94.2493 44.6407 94.4492 44.7682 94.6357 44.9135C94.7964 45.0347 94.9365 45.1805 95.0509 45.3453C95.1529 45.4972 95.2056 45.6764 95.2019 45.8588C95.2048 46.0051 95.168 46.1496 95.0955 46.2771C95.021 46.4001 94.9218 46.5066 94.8039 46.5899C94.6743 46.6782 94.5304 46.7438 94.3784 46.7837C94.0157 46.8834 93.6315 46.8751 93.2735 46.7599C93.0841 46.7011 92.9065 46.6103 92.7485 46.4913C92.5866 46.3715 92.4462 46.2255 92.3333 46.0594C92.2111 45.88 92.1152 45.6842 92.0485 45.4779L92.0176 45.3895L91.2216 45.7296L91.2524 45.8078C91.3425 46.0576 91.466 46.2944 91.6196 46.5117C91.7663 46.7195 91.9486 46.9002 92.1583 47.0456C92.3787 47.1983 92.6235 47.3132 92.8823 47.3856C93.5528 47.5496 94.2552 47.5332 94.9171 47.338C95.2152 47.2435 95.4924 47.0934 95.7338 46.8959C95.947 46.7162 96.116 46.4906 96.2279 46.2363C96.3535 45.9713 96.4191 45.6823 96.42 45.3895C96.4223 45.1443 96.3596 44.9027 96.2382 44.689C96.1142 44.4782 95.9579 44.2878 95.7749 44.1245" fill="white"/>
+          <path d="M97.4083 40.8298H99.9372V47.2942H101.282V40.8298H103.804V40.2109H97.4083V40.8298Z" fill="white"/>
+          <path d="M109.247 45.4603L106.584 40.2576L106.56 40.21H105.222V47.2932H105.911V41.7946L108.718 47.2456L108.742 47.2932H109.092L111.848 41.8388V47.2932H113.2V40.21H111.882L109.247 45.4603Z" fill="white"/>
+          <path d="M115.289 47.2942H120.309V46.6753H116.634V43.7475H119.091V43.1252H116.634V40.8298H120.309V40.2109H115.289V47.2942Z" fill="white"/>
+          <path d="M127.217 45.1679L122.756 40.2372L122.729 40.21H121.946V47.2932H122.646V41.934L127.484 47.4292L127.512 47.4564H127.91V40.21H127.217V45.1679Z" fill="white"/>
+          <path d="M129.32 40.8289H131.849V47.2932H133.194V40.8289H135.72V40.21H129.32V40.8289Z" fill="white"/>
+          <path d="M141.995 40.21H140.647V47.2932H145.502V46.6743H141.995V40.21Z" fill="white"/>
+          <path d="M148.165 40.21H146.817V47.2932H151.672V46.6743H148.165V40.21Z" fill="white"/>
+          <path d="M159.237 45.1515L159.193 45.2365C159.089 45.4368 158.965 45.626 158.822 45.801C158.673 45.9854 158.502 46.152 158.314 46.2975C158.125 46.4365 157.919 46.5508 157.7 46.6375C157.483 46.7286 157.25 46.7749 157.014 46.7736C156.634 46.7774 156.256 46.7081 155.902 46.5695C155.568 46.4378 155.267 46.2373 155.017 45.9813C154.759 45.7089 154.559 45.3872 154.43 45.0359C154.141 44.21 154.141 43.3115 154.43 42.4855C154.563 42.1299 154.766 41.804 155.027 41.5266C155.277 41.2659 155.578 41.0597 155.912 40.9213C156.261 40.7792 156.634 40.7075 157.011 40.7105C157.438 40.7021 157.857 40.8335 158.201 41.0845C158.606 41.4084 158.932 41.8188 159.155 42.2849L159.2 42.3733L159.855 41.9347L159.814 41.8632C159.66 41.621 159.485 41.3933 159.289 41.1831C159.079 40.9604 158.842 40.765 158.582 40.6017C158.309 40.4299 158.015 40.2939 157.707 40.197C156.651 39.9089 155.523 40.0407 154.564 40.5643C154.273 40.7258 154.006 40.9248 153.768 41.1559C153.535 41.381 153.335 41.6361 153.171 41.9143C153.008 42.1916 152.882 42.4888 152.797 42.7984C152.668 43.2678 152.633 43.7578 152.696 44.2404C152.758 44.723 152.916 45.1886 153.161 45.6106C153.321 45.8856 153.517 46.1383 153.744 46.3621C153.977 46.5898 154.24 46.7854 154.526 46.9436C154.83 47.1074 155.152 47.233 155.487 47.3176C155.849 47.4079 156.222 47.4524 156.595 47.4503C156.972 47.4548 157.346 47.4032 157.707 47.2972C158.023 47.2032 158.324 47.0671 158.603 46.8926C158.857 46.7301 159.087 46.5345 159.289 46.3111C159.481 46.0998 159.655 45.8723 159.807 45.631L159.852 45.5562L159.237 45.1515Z" fill="white"/>
+          </svg>
+          
+        {% comment %} <span class="ms-1 font-weight-bold">MAFAZA PROJECT</span> {% endcomment %}
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    {% comment %} <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main"> {% endcomment %}
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link {% if active_page == 'dashboard' %}active{% endif %}" href="{% url 'user_dashboard' %}">
+
+         
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>shop </title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(0.000000, 148.000000)">
+                        <path class="color-background opacity-6" d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"></path>
+                        <path class="color-background" d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  " href="{% url 'create_transaction' %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>office</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g id="office" transform="translate(153.000000, 2.000000)">
+                        <path class="color-background opacity-6" d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z"></path>
+                        <path class="color-background" d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Trasnsaction</span>
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link  " href="{% url 'project_list' %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>settings</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(304.000000, 151.000000)">
+                        <polygon class="color-background opacity-6" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                        <path class="color-background opacity-6" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"></path>
+                        <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Project</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link  " href="{% url "logout" %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>customer-support</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(1.000000, 0.000000)">
+                        <path class="color-background opacity-6" d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z"></path>
+                        <path class="color-background" d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z"></path>
+                        <path class="color-background" d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z"></path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Logout</span>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+   
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+              {% comment %} <div class="input-group">
+                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="Type here...">
+              </div> {% endcomment %}
+            </div>
+            
+          <ul class="navbar-nav  justify-content-end">
+           
+            <li class="nav-item d-flex align-items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="30.359" height="30.359" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd" 
+              viewBox="0 0 6.827 6.827"><defs><style>.fil2{fill:none}</style></defs><g id="Layer_x0020_1"><path d="M3.413 1.327c-.126 0-.254.011-.381.035l-.121-.263a.328.328 0 0 0-.435-.16l-.334.152a.33.33 0 0 0-.16.436l.12.262c-.158.13-.295.279-.408.444l-.272-.1a.335.335 0 0 0-.421.193l-.127.344a.326.326 0 0 0-.02.11v.009a.329.329 0 0 0 .214.302l.272.1c-.022.2-.015.402.023.603l-.263.121a.329.329 0 0 0-.161.435l.154.333c.076.165.27.237.434.161l.264-.121c.129.16.278.296.442.409l-.1.272a.323.323 0 0 0 .01.25c.036.08.102.14.184.171l.345.127a.328.328 0 0 0 .42-.194l.1-.272c.074.008.148.012.221.012v-.789c-.504 0-.966-.296-1.177-.754a1.298 1.298 0 0 1 1.176-1.84h.001v-.788z" style="fill:#00c853;fill-rule:nonzero"/><path d="m5.76 3.734-.273-.1c.021-.2.014-.402-.023-.603l.263-.121a.328.328 0 0 0 .16-.435l-.153-.333a.327.327 0 0 0-.435-.161l-.263.121a2.07 2.07 0 0 0-.443-.409l.1-.272A.329.329 0 0 0 4.5 1L4.155.873a.336.336 0 0 0-.42.193l-.101.273a2.098 2.098 0 0 0-.217-.012h-.004v.789h.003c.503.001.964.297 1.175.754a1.298 1.298 0 0 1-1.177 1.839v.789a2.1 2.1 0 0 0 .381-.035l.121.263c.076.164.271.236.435.16l.333-.153a.328.328 0 0 0 .16-.435l-.12-.263c.159-.128.296-.278.409-.443l.272.101a.327.327 0 0 0 .42-.194l.128-.344a.328.328 0 0 0-.194-.421z" style="fill:#00e676;fill-rule:nonzero"/><g id="_490166928"><path id="_490167024" class="fil2" d="M0 0h6.827v6.827H0z"/><path id="_490167120" class="fil2" d="M.853.853h5.12v5.12H.853z"/></g></g></svg>
+            </li>
+            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0">
+                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+              </a>
+            </li>
+            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+              <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-bell cursor-pointer"></i>
+              </a>
+              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New message</span> from Laur
+                        </h6>
+                        <p class="text-xs text-secondary mb-0 ">
+                          <i class="fa fa-clock me-1"></i>
+                          13 minutes ago
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="my-auto">
+                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          <span class="font-weight-bold">New album</span> by Travis Scott
+                        </h6>
+                        <p class="text-xs text-secondary mb-0 ">
+                          <i class="fa fa-clock me-1"></i>
+                          1 day
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item border-radius-md" href="javascript:;">
+                    <div class="d-flex py-1">
+                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <title>credit-card</title>
+                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                              <g transform="translate(1716.000000, 291.000000)">
+                                <g transform="translate(453.000000, 454.000000)">
+                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                </g>
+                              </g>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                          Payment successfully completed
+                        </h6>
+                        <p class="text-xs text-secondary mb-0 ">
+                          <i class="fa fa-clock me-1"></i>
+                          2 days
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+     <div class="row">
+      <div class="col-lg-4 col-md-4 col-12 mb-4">
+        <div class="card h-100">
+          <span class="mask hd bg-dark opacity-10 border-radius-lg"></span>
+          <div class="card-body p-3 position-relative d-flex justify-content-center align-items-center"> <!-- Center content -->
+            <div class="text-center"> <!-- Center text -->
+              <h5 class="text-white font-weight-bolder mb-0" style="white-space: nowrap;">Total Investments</h5> <!-- Prevent text wrapping -->
+              <span class="text-white text-sm">{{ total_investments }}</span> <!-- Value below the heading -->
+            </div>
+            <div class="dropdown text-end position-absolute top-0 end-0"> <!-- Dropdown at top-right corner -->
+              <a href="javascript:;" class="cursor-pointer" id="dropdownUsers1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-ellipsis-h text-white"></i>
+              </a>
+              <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownUsers1">
+                <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-lg-4 col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <span class="mask bg-primary opacity-10 border-radius-lg"></span>
+            <div class="card-body p-3 position-relative">
+              <div class="row">
+                <div class="col-8 text-start">
+                  
+                  <h5 class="text-white font-weight-bolder mb-0 mt-3">Total Returns</h5>
+                  <span class="text-white text-sm"> {{ total_returns }}</span>
+                  
+                              
+                </div>
+          
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <span class="mask hd bg-dark opacity-10 border-radius-lg"></span>
+            <div class="card-body p-3 position-relative">
+              <div class="row">
+                <div class="col-8 text-start">
+                  
+                  <h5 class="text-white font-weight-bolder mb-0 mt-3">Cash circulation</h5>
+                  <span class="text-white text-sm">{{ cash_circulation }}</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Row: 3 Cards -->
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <span class="mask hg bg-primary opacity-10 border-radius-lg"></span>
+            <div class="card-body p-3 position-relative">
+              <div class="row">
+                <div class="col-8 text-start">
+                  
+                  <h5 class="text-white font-weight-bolder mb-0 mt-3">Total Roi</h5>
+                  <span class="text-white text-sm">Likes</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <span class="mask hd bg-dark opacity-10 border-radius-lg"></span>
+            <div class="card-body p-3 position-relative">
+              <div class="row">
+                <div class="col-8 text-start">
+                  
+                  <h5 class="text-white font-weight-bolder mb-0 mt-3">Total Projects</h5>
+                  <span class="text-white text-sm">{{total_projects}}</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <span class="mask hg bg-primary opacity-10 border-radius-lg"></span>
+            <div class="card-body p-3 position-relative">
+              <div class="row">
+                <div class="col-8 text-start">
+                  
+                  <h5 class="text-white font-weight-bolder mb-0 mt-3">Total Withdwals</h5>
+                  <span class="text-white text-sm">{{total_withdrawals}}</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">{{user.username}} 's Ledger</h6>
+                <div class="d-flex align-items-center">
+                  <div class="input-group me-3">
+                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control bg-gray" placeholder="Type here...">
+                  </div>
+                  <button type="button" class="badge badge-sm bg-gradient-primary border-0 me-3">Pdf</button>
+                  <button type="button" class="badge badge-sm bg-gradient-primary border-0">Csv</button>
+                </div>
+              </div>
+            </div>
+            {% comment %} <div class="card-body px-0 pb-2"> {% endcomment %}
+              {% comment %} <div class="table-responsive"> <!-- Add this for horizontal scrolling if needed -->
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Narration</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Investment</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Returns</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Withdrawal</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Balance</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.project.project_name }}</td>
+                      <td>{{ transaction.narration }}</td>
+                      <td>{% if transaction.transaction_type == 'investment' %}{{ transaction.amount }}{% else %}-{% endif %}</td>
+                      <td class="align-middle text-center">
+                        <span class="me-2 text-xs font-weight-bold">
+                            {{ transaction.actual_return }} AED
+                        </span>
+                    </td>
+                      <td>{% if transaction.transaction_type == 'withdrawal' %}{{ transaction.amount }}{% else %}-{% endif %}</td>
+                      <td>{{ transaction.balance }}</td>
+                      <td>
+                        {% if transaction.receipt %}
+                          <a href="{{ transaction.receipt.url }}" target="_blank">View Receipt</a>
+                        {% else %}
+                          N/A
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    
+                  </tbody>
+                </table> {% endcomment %}
+              {% comment %} </div> {% endcomment %}
+
+
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0" id="transaction-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Project</th>
+                      <th>Narration</th>
+                      <th>Investment</th>
+                      <th>Returns</th>
+                      <th>Withdrawal</th>
+                      <th>Balance</th>
+                      <th>Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for transaction in transactions %}
+                    <tr id="transaction-{{ transaction.id }}">
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.project.project_name }}</td>
+                      <td>{{ transaction.narration }}</td>
+                      <td>{% if transaction.transaction_type == 'investment' %}{{ transaction.amount }}{% else %}-{% endif %}</td>
+                      <td class="actual-return">{{ transaction.actual_return }} AED</td>
+                      <td>{% if transaction.transaction_type == 'withdrawal' %}{{ transaction.amount }}{% else %}-{% endif %}</td>
+                      <td class="balance">{{ transaction.balance }}</td>
+                      <td>{{ return_entry.return_amount }}</td>
+            <td>{{ return_entry.recorded_at }}</td>
+                      <td>
+                        {% if transaction.receipt %}
+                          <a href="{{ transaction.receipt.url }}" target="_blank">View Receipt</a>
+                          <a href="{% url 'transaction_returns' transaction.id %}">View Historical Returns</a>
+                        {% else %}
+                          N/A
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   
+     
+      <footer class="footer pt-3  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+
+       
+
+
+                <script>
+                  document.addEventListener("DOMContentLoaded", function() {
+                      const currentPath = window.location.pathname;
+                      const navLinks = document.querySelectorAll('.nav-link');
+                  
+                      navLinks.forEach(link => {
+                          const linkPath = link.getAttribute('href');
+                          if (currentPath === linkPath) {
+                              link.classList.add('active');
+                          }
+                      });
+                  });
+                  </script>
+                © <script>
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+                made with <i class="fa fa-heart"></i> by
+                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                for a better web.
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="fa fa-cog py-2"> </i>
+    </a>
+    <div class="card shadow-lg ">
+      <div class="card-header pb-0 pt-3 ">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">Soft UI Configurator</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1">
+      <div class="card-body pt-sm-3 pt-0">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">Sidebar Colors</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between 2 different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn btn-primary w-100 px-3 mb-2 active" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+          <button class="btn btn-primary w-100 px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+        <!-- Navbar Fixed -->
+        <div class="mt-3">
+          <h6 class="mb-0">Navbar Fixed</h6>
+        </div>
+        <div class="form-check form-switch ps-0">
+          <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+        </div>
+        <hr class="horizontal dark my-sm-4">
+        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/soft-ui-dashboard">Free Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/soft-ui-dashboard">View documentation</a>
+        <div class="w-100 text-center">
+          <a class="github-button" href="https://github.com/creativetimofficial/soft-ui-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/soft-ui-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+ <!--   Core JS Files   -->
+ <script src="{% static 'js/core/popper.min.js'%}"></script>
+ <script src="{% static 'js/core/bootstrap.min.js'%}"></script>
+ <script src="{% static 'js/plugins/perfect-scrollbar.min.js'%}"></script>
+ <script src="{% static 'js/plugins/smooth-scrollbar.min.js'%}"></script>
+ <script>
+   var win = navigator.platform.indexOf('Win') > -1;
+   if (win && document.querySelector('#sidenav-scrollbar')) {
+     var options = {
+       damping: '0.5'
+     }
+     Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+   }
+ </script>
+ <!-- Github buttons -->
+ <script async defer src="https://buttons.github.io/buttons.js"></script>
+ <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+ <script src="{% static 'js/soft-ui-dashboard.min.js' %}"></script></body>
+
+</html>

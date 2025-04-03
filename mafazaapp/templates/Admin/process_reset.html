@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h4>Process Password Reset</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>User:</strong> {{ request.user.username }}</p>
+            <p><strong>Requested at:</strong> {{ request.requested_at|date:"Y-m-d H:i" }}</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">
+                    Generate Temporary Password
+                </button>
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+            
+            {% if request.temp_password %}
+            <div class="alert alert-success mt-3">
+                <h5>Temporary Password Generated:</h5>
+                <p class="h4">{{ request.temp_password }}</p>
+                <p>Inform the user of this temporary password.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

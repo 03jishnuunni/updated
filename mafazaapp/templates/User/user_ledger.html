@@ -1,0 +1,79 @@
+<!-- user_ledger.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Ledger</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total-returns {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Ledger</h1>
+
+    <!-- Card to Display Total Return -->
+    <div class="total-returns">
+        <h3>Total Returns: {{ total_return|floatformat:2 }}</h3>
+    </div>
+
+    <!-- Refresh Button -->
+    <button onclick="location.reload()">Refresh Ledger</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Project Name</th>
+                <th>Date</th>
+                <th>Narration</th>
+                <th>Principal Investment</th>
+                <th>Returns</th>
+                <th>Withdrawal</th>
+                <th>Balance (Returns Only)</th>
+                <th>Receipt</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in ledger_data %}
+            <tr>
+                <td>{{ entry.transaction_id }}</td>
+                <td>{{ entry.project_name }}</td>
+                <td>{{ entry.date|date:"F j, Y, g:i A" }}</td>
+                <td>{{ entry.narration }}</td>
+                <td>{{ entry.principal_investment|floatformat:2 }}</td>
+                <td>{{ entry.returns|floatformat:2 }}</td>
+                <td>{{ entry.withdrawal|floatformat:2 }}</td>
+                <td>{{ entry.balance|floatformat:2 }}</td>
+                <td>
+                    {% if entry.receipt %}
+                        <a href="{{ entry.receipt.url }}" target="_blank">View Receipt</a>
+                    {% else %}
+                        None
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No ledger entries found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

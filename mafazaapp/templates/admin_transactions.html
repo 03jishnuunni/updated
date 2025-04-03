@@ -1,0 +1,235 @@
+{% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        {{ form.user.label_tag }}
+        {{ form.user }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.project.label_tag }}
+        {{ form.project }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.amount.label_tag }}
+        {{ form.amount }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.transaction_type.label_tag }}
+        {{ form.transaction_type }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.transaction_date.label_tag }}
+        {{ form.transaction_date }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.narration.label_tag }}
+        {{ form.narration }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.receipt.label_tag }}
+        {{ form.receipt }}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Create Transaction</button>
+</form>
+ {% endcomment %}
+
+ {% load static %}
+ 
+ {% block content %}
+ <div class="container-fluid py-4">
+     <div class="row">
+         <!-- Transaction Creation Form -->
+         <div class="col-lg-5 col-md-6 mb-4">
+             <div class="card h-100">
+                 <div class="card-header pb-0">
+                     <h6 class="mb-0">Create New Transaction</h6>
+                 </div>
+                 <div class="card-body">
+                     <form method="post" enctype="multipart/form-data">
+                         {% csrf_token %}
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.user.label }}</label>
+                             {{ form.user }}
+                             {% if form.user.errors %}
+                                 <div class="text-danger">{{ form.user.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.project.label }}</label>
+                             {{ form.project }}
+                             {% if form.project.errors %}
+                                 <div class="text-danger">{{ form.project.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.amount.label }}</label>
+                             {{ form.amount }}
+                             {% if form.amount.errors %}
+                                 <div class="text-danger">{{ form.amount.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.transaction_type.label }}</label>
+                             {{ form.transaction_type }}
+                             {% if form.transaction_type.errors %}
+                                 <div class="text-danger">{{ form.transaction_type.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.transaction_date.label }}</label>
+                             {{ form.transaction_date }}
+                             {% if form.transaction_date.errors %}
+                                 <div class="text-danger">{{ form.transaction_date.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.narration.label }}</label>
+                             {{ form.narration }}
+                             {% if form.narration.errors %}
+                                 <div class="text-danger">{{ form.narration.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <div class="form-group mb-3">
+                             <label class="form-label">{{ form.receipt.label }}</label>
+                             {{ form.receipt }}
+                             {% if form.receipt.errors %}
+                                 <div class="text-danger">{{ form.receipt.errors }}</div>
+                             {% endif %}
+                         </div>
+                         
+                         <button type="submit" name="create_transaction" class="btn btn-primary w-100">
+                             Create Transaction
+                         </button>
+                     </form>
+                 </div>
+             </div>
+         </div>
+ 
+         <!-- Pending Transactions Table -->
+         <div class="col-lg-7 col-md-6">
+             <div class="card h-100">
+                 <div class="card-header pb-0">
+                     <div class="d-flex justify-content-between align-items-center">
+                         <h6 class="mb-0">Pending Transactions</h6>
+                         <span class="badge bg-gradient-info">
+                             Total: {{ pending_page_obj.paginator.count }}
+                         </span>
+                     </div>
+                 </div>
+                 <div class="card-body px-0 pb-2">
+                     <div class="table-responsive">
+                         <table class="table align-items-center mb-0">
+                             <thead>
+                                 <tr>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 {% for transaction in pending_page_obj %}
+                                 <tr>
+                                     <td class="text-sm font-weight-bold ps-4">
+                                         {{ transaction.user.get_full_name }}
+                                     </td>
+                                     <td class="text-sm">
+                                         {{ transaction.project.project_name }}
+                                     </td>
+                                     <td class="text-sm">
+                                         {{ transaction.amount }}
+                                     </td>
+                                     <td class="text-sm text-capitalize">
+                                         {{ transaction.transaction_type }}
+                                     </td>
+                                     <td class="text-sm">
+                                         {{ transaction.transaction_date|date:"M d, Y" }}
+                                     </td>
+                                     {% comment %} <td class="text-sm">
+                                         <div class="d-flex">
+                                             <a href="{% url 'approve_transaction' transaction.id %}" 
+                                                class="btn btn-sm btn-success me-2">
+                                                Approve
+                                             </a>
+                                             <a href="{% url 'reject_transaction' transaction.id %}" 
+                                                class="btn btn-sm btn-danger">
+                                                Reject
+                                             </a>
+                                         </div>
+                                     </td> {% endcomment %}
+                                 </tr>
+                                 {% empty %}
+                                 <tr>
+                                     <td colspan="6" class="text-center py-4">No pending transactions found</td>
+                                 </tr>
+                                 {% endfor %}
+                             </tbody>
+                         </table>
+                     </div>
+ 
+                     <!-- Pagination -->
+                     {% if pending_page_obj.paginator.num_pages > 1 %}
+                     <nav class="mt-3">
+                         <ul class="pagination justify-content-center">
+                             {% if pending_page_obj.has_previous %}
+                                 <li class="page-item">
+                                     <a class="page-link" href="?page=1" aria-label="First">
+                                         <i class="fas fa-angle-double-left"></i>
+                                     </a>
+                                 </li>
+                                 <li class="page-item">
+                                     <a class="page-link" href="?page={{ pending_page_obj.previous_page_number }}" aria-label="Previous">
+                                         <i class="fas fa-angle-left"></i>
+                                     </a>
+                                 </li>
+                             {% endif %}
+ 
+                             {% for num in pending_page_obj.paginator.page_range %}
+                                 {% if num == pending_page_obj.number %}
+                                     <li class="page-item active">
+                                         <span class="page-link">{{ num }}</span>
+                                     </li>
+                                 {% elif num > pending_page_obj.number|add:'-3' and num < pending_page_obj.number|add:'3' %}
+                                     <li class="page-item">
+                                         <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                     </li>
+                                 {% endif %}
+                             {% endfor %}
+ 
+                             {% if pending_page_obj.has_next %}
+                                 <li class="page-item">
+                                     <a class="page-link" href="?page={{ pending_page_obj.next_page_number }}" aria-label="Next">
+                                         <i class="fas fa-angle-right"></i>
+                                     </a>
+                                 </li>
+                                 <li class="page-item">
+                                     <a class="page-link" href="?page={{ pending_page_obj.paginator.num_pages }}" aria-label="Last">
+                                         <i class="fas fa-angle-double-right"></i>
+                                     </a>
+                                 </li>
+                             {% endif %}
+                         </ul>
+                     </nav>
+                     {% endif %}
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ {% endblock %}
